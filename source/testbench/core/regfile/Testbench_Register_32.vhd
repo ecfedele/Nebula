@@ -6,9 +6,10 @@
 --                                                                                               --
 -- Main Author    : Elijah Creed Fedele                                                          --
 -- Creation Date  : May 24, 2023 13:20			                                                 --
--- Last Revision  : May 24, 2023 13:25                                                           --
+-- Last Revision  : May 25, 2023 17:04                                                           --
 -- Version        : N/A                                                                          --
--- License        : N/A                                                                          --
+-- License        : CERN-OHL-S-2.0 (CERN OHL, v2.0, Strongly Reciprocal)                         --
+-- Copyright      : (C) 2023 Elijah Creed Fedele & Connor Clarke                                 --
 --                                                                                               --
 -- Library        : N/A                                                                          --
 -- Dependencies   : IEEE (STD_LOGIC_1164, STD_LOGIC_UNSIGNED, STD_LOGIC_ARITH, NUMERIC_STD)      --
