@@ -5,7 +5,7 @@
 -- Description    : Implements a 32-register MIPS/RISC-V file with separate program counter.      --
 --                                                                                                --
 -- Main Author    : Elijah Creed Fedele                                                           --
--- Creation Date  : May 24, 2023 02:32			                                                  --
+-- Creation Date  : May 24, 2023 02:32                                                            --
 -- Last Revision  : May 24, 2023 23:23                                                            --
 -- Version        : N/A                                                                           --
 -- License        : CERN-OHL-S-2.0 (CERN OHL, v2.0, Strongly Reciprocal)                          --
