@@ -37,51 +37,51 @@ use 	IEEE.NUMERIC_STD.ALL;
 -- Outputs:     QA, QB      (STD_LOGIC_VECTOR)  Output buses (32-bit wide)                       --
 ---------------------------------------------------------------------------------------------------
 entity Register_32 is port(
-	D               : in  STD_LOGIC_VECTOR(31 downto 0);
-	CLK, nSET, nRST : in  STD_LOGIC;
-	nWR, nOEA, nOEB : in  STD_LOGIC;
-	QA, QB          : out STD_LOGIC_VECTOR(31 downto 0)
+    D               : in  STD_LOGIC_VECTOR(31 downto 0);
+    CLK, nSET, nRST : in  STD_LOGIC;
+    nWR, nOEA, nOEB : in  STD_LOGIC;
+    QA, QB          : out STD_LOGIC_VECTOR(31 downto 0)
 );
 end entity Register_32;
 
 architecture Behavioral of Register_32 is
-	signal reg : STD_LOGIC_VECTOR(31 downto 0);
+    signal reg : STD_LOGIC_VECTOR(31 downto 0);
 begin
-	-- Use a first process to keep the internal state up-to-date.
-	--     1. An asynchronous reset (nRST active low) reverts the register state to zero.
-	--     2. A write-enable (nWR active low) signal enables synchronous read of data into
-	--        the register state.
-	DATA_PROC: process(CLK, nSET, nRST, nWR)
-	begin
-		if (nRST = '0') then
-			reg <= (others => '0');
-		elsif (nSET = '0') then
-			reg <= (others => '1');
-		elsif (CLK'event and CLK = '1' and nWR = '0') then
-			reg <= D;
-		end if;
-	end process DATA_PROC;
-	
-	-- Use a second output process to control the output bus condition.
-	-- For either channel, if the respective output-enable signal (nOEx, active low) is 
-	-- asserted, write the contents of the register onto the bus. Otherwise, maintain the
-	-- buses in tri-state/high-Z configuration.
-	OUTPUT_STATE: process(nOEA, nOEB)
-		variable output_enables : STD_LOGIC_VECTOR(1 downto 0) := nOEA & nOEB;
-	begin
-		case (output_enables) is
-			when "00" =>
-				QA <= reg;
-				QB <= reg;
-			when "01" =>
-				QA <= reg;
-				QB <= (others => 'Z');
-			when "10" =>
-				QA <= (others => 'Z');
-				QB <= reg;
-			when "11" =>
-				QA <= (others => 'Z');
-				QB <= (others => 'Z');
-		end case;
-	end process OUTPUT_STATE;
+    -- Use a first process to keep the internal state up-to-date.
+    --     1. An asynchronous reset (nRST active low) reverts the register state to zero.
+    --     2. A write-enable (nWR active low) signal enables synchronous read of data into
+    --        the register state.
+    DATA_PROC: process(CLK, nSET, nRST, nWR)
+    begin
+        if (nRST = '0') then
+            reg <= (others => '0');
+        elsif (nSET = '0') then
+            reg <= (others => '1');
+        elsif (CLK'event and CLK = '1' and nWR = '0') then
+            reg <= D;
+        end if;
+    end process DATA_PROC;
+    
+    -- Use a second output process to control the output bus condition.
+    -- For either channel, if the respective output-enable signal (nOEx, active low) is 
+    -- asserted, write the contents of the register onto the bus. Otherwise, maintain the
+    -- buses in tri-state/high-Z configuration.
+    OUTPUT_STATE: process(nOEA, nOEB)
+        variable output_enables : STD_LOGIC_VECTOR(1 downto 0) := nOEA & nOEB;
+    begin
+        case (output_enables) is
+            when "00" =>
+                QA <= reg;
+                QB <= reg;
+            when "01" =>
+                QA <= reg;
+                QB <= (others => 'Z');
+            when "10" =>
+                QA <= (others => 'Z');
+                QB <= reg;
+            when "11" =>
+                QA <= (others => 'Z');
+                QB <= (others => 'Z');
+        end case;
+    end process OUTPUT_STATE;
 end architecture Behavioral;

@@ -36,23 +36,23 @@ use 	IEEE.NUMERIC_STD.ALL;
 -- Outputs:     Y           (STD_LOGIC_VECTOR)  One-cold output (32-bit)                         --
 ---------------------------------------------------------------------------------------------------
 entity Decoder_532 is port(
-	A       : in  STD_LOGIC_VECTOR(4 downto 0);
-	POL, EN : in  STD_LOGIC;
-	Y       : out STD_LOGIC_VECTOR(31 downto 0)
+    A       : in  STD_LOGIC_VECTOR(4 downto 0);
+    POL, EN : in  STD_LOGIC;
+    Y       : out STD_LOGIC_VECTOR(31 downto 0)
 ); 
 end entity Decoder_532;
 
 architecture Behavioral of Decoder_532 is
 begin 
-	COMB_LOGIC: process(all)
-		signal controls : STD_LOGIC_VECTOR(1 downto 0) := EN & POL;
-		variable dec    : INTEGER := to_integer(UNSIGNED(A));
-	begin
-		case (controls) is
-			when "00" => Y <= (others => '1');
-			when "01" => Y <= (others => '0');
-			when "10" => Y <= (dec => '0', others => '1');
-			when "11" => Y <= (dec => '1', others => '0');
-		end case;
-	end process COMB_LOGIC;
+    COMB_LOGIC: process(all)
+        signal controls : STD_LOGIC_VECTOR(1 downto 0) := EN & POL;
+        variable dec    : INTEGER := to_integer(UNSIGNED(A));
+    begin
+        case (controls) is
+            when "00" => Y <= (others => '1');
+            when "01" => Y <= (others => '0');
+            when "10" => Y <= (dec => '0', others => '1');
+            when "11" => Y <= (dec => '1', others => '0');
+        end case;
+    end process COMB_LOGIC;
 end architecture Behavioral;

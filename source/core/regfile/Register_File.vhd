@@ -38,9 +38,9 @@ use 	IEEE.NUMERIC_STD.ALL;
 --              DOUT2       (STD_LOGIC_VECTOR)  The output from selected register rs2             --
 ----------------------------------------------------------------------------------------------------
 entity Register_File is port(
-	DIN                : in  STD_LOGIC_VECTOR(31 downto 0);
-	OPRD, OPRS1, OPRS2 : in  STD_LOGIC_VECTOR( 4 downto 0);
-	RDWR, RDPC         : in  STD_LOGIC;
-	DOUT1, DOUT2       : out STD_LOGIC_VECTOR(31 downto 0);
+    DIN                : in  STD_LOGIC_VECTOR(31 downto 0);
+    OPRD, OPRS1, OPRS2 : in  STD_LOGIC_VECTOR( 4 downto 0);
+    RDWR, RDPC         : in  STD_LOGIC;
+    DOUT1, DOUT2       : out STD_LOGIC_VECTOR(31 downto 0);
 );
 end entity Register_File;
