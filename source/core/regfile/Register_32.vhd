@@ -11,7 +11,7 @@
 -- License        : CERN-OHL-S-2.0 (CERN OHL, v2.0, Strongly Reciprocal)                         --
 --                                                                                               --
 -- Library        : N/A                                                                          --
--- Dependencies   : IEEE (STD_LOGIC_1164, STD_LOGIC_UNSIGNED, STD_LOGIC_ARITH, NUMERIC_STD)      --
+-- Dependencies   : IEEE (STD_LOGIC_1164, NUMERIC_STD)                                           --
 -- Initialization : N/A                                                                          --
 -- Notes          : Should be able to be simulated on any standards-compliant VHDL               --
 --                  simulator, although written specifically for GHDL/GTKWave.                   --
@@ -19,8 +19,6 @@
 
 library IEEE;
 use 	IEEE.STD_LOGIC_1164.ALL;
-use     IEEE.STD_LOGIC_UNSIGNED.ALL;
-use     IEEE.STD_LOGIC_ARITH.ALL;
 use 	IEEE.NUMERIC_STD.ALL;
 
 ---------------------------------------------------------------------------------------------------
@@ -67,8 +65,9 @@ begin
     -- asserted, write the contents of the register onto the bus. Otherwise, maintain the
     -- buses in tri-state/high-Z configuration.
     OUTPUT_STATE: process(nOEA, nOEB)
-        variable output_enables : STD_LOGIC_VECTOR(1 downto 0) := nOEA & nOEB;
+        variable output_enables : STD_LOGIC_VECTOR(1 downto 0);
     begin
+        output_enables  := nOEA & nOEB;
         case (output_enables) is
             when "00" =>
                 QA <= reg;
@@ -82,6 +81,7 @@ begin
             when "11" =>
                 QA <= (others => 'Z');
                 QB <= (others => 'Z');
+            when others => null;
         end case;
     end process OUTPUT_STATE;
 end architecture Behavioral;
