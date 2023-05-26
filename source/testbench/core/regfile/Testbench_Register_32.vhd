@@ -5,7 +5,7 @@
 -- Description    : Configures a testbench to test the functionality of the Register_32 module.  --
 --                                                                                               --
 -- Main Author    : Elijah Creed Fedele                                                          --
--- Creation Date  : May 24, 2023 13:20			                                                 --
+-- Creation Date  : May 24, 2023 13:23                                                           --
 -- Last Revision  : May 25, 2023 17:04                                                           --
 -- Version        : N/A                                                                          --
 -- License        : CERN-OHL-S-2.0 (CERN OHL, v2.0, Strongly Reciprocal)                         --
