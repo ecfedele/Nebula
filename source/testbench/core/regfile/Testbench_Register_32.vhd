@@ -114,7 +114,7 @@ begin
 		wait for 50 ns;
 		clock <= '0';
 		wait for 50 ns;
-		n_set <= '0';
+		n_set <= '1';
 
 		clock <= '1';
 		n_write_sel <= '0';

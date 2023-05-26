@@ -54,9 +54,11 @@ begin
     begin
         if (nRST = '0') then
             reg <= (others => '0');
+            QA  <= (others => 'Z');
+            QB  <= (others => 'Z');
         elsif (nSET = '0') then
             reg <= (others => '1');
-        elsif (CLK'event and CLK = '1' and nWR = '0') then
+        elsif rising_edge(CLK) and nWR = '0' then
             reg <= D;
         end if;
     end process DATA_PROC;
@@ -65,7 +67,7 @@ begin
     -- For either channel, if the respective output-enable signal (nOEx, active low) is 
     -- asserted, write the contents of the register onto the bus. Otherwise, maintain the
     -- buses in tri-state/high-Z configuration.
-    OUTPUT_STATE: process(nOEA, nOEB)
+    OUTPUT_STATE: process(reg, nOEA, nOEB)
         variable output_enables : STD_LOGIC_VECTOR(1 downto 0);
     begin
         output_enables  := nOEA & nOEB;
