@@ -54,9 +54,9 @@ begin
     begin
         if (nRST = '0') then
             reg <= (others => '0');
-            QA  <= (others => 'Z');
-            QB  <= (others => 'Z');
-        elsif (nSET = '0') then
+        --    QA  <= (others => 'Z');
+        --    QB  <= (others => 'Z');
+        elsif(nSET = '0') then
             reg <= (others => '1');
         elsif rising_edge(CLK) and nWR = '0' then
             reg <= D;
