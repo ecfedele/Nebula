@@ -4,8 +4,8 @@ The *Nebula* core is a from-scratch implementation of the 32-bit RISC-V instruct
 
 As this project is still in its early stages, it is important to check this README regularly to keep apprised of the implementation status of various features. In a nutshell, the *Nebula* project seeks to:
 
- - Develop a pipelined [RV32I](https://five-embeddev.com/riscv-isa-manual/latest/rv32.html) implementation, complete with hardware multiplier/divider ([RV32M](https://five-embeddev.com/riscv-isa-manual/latest/m.html#m-standard-extension-for-integer-multiplication-and-division-version-2.0)) support
- - Incrementally add support for single-precision ([RV32F](https://five-embeddev.com/riscv-isa-manual/latest/f.html#sec:single-float)) and double-precision ([RV32D](https://five-embeddev.com/riscv-isa-manual/latest/d.html#d-standard-extension-for-double-precision-floating-point-version-2.2)) floating-point extensions
+ - Develop a pipelined [RV32G](https://five-embeddev.com/riscv-isa-manual/latest/gmaps.html#rv3264g-instruction-set-listings) (integer, multiplication, floating-point, and CSR) implementation (with the possible omission of `Zifencei` due to the in-order nature of *Nebula*)
+ - Once the RV32I and RV32M instruction sets are added, incrementally add support for single-precision ([RV32F](https://five-embeddev.com/riscv-isa-manual/latest/f.html#sec:single-float)) and double-precision ([RV32D](https://five-embeddev.com/riscv-isa-manual/latest/d.html#d-standard-extension-for-double-precision-floating-point-version-2.2)) floating-point extensions
  - Configure the core around the [open-source Wishbone bus](https://cdn.opencores.org/downloads/wbspec_b4.pdf) for external communications, enabling the use of other open-source IP cores for peripherals and further promoting the development of an open computing environment
  - Provide a testbed and base from which to develop more advanced microprocessor concepts, such as 64-bit computing, memory management, and out-of-order execution
 
