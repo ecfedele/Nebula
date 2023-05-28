@@ -1,0 +1,10 @@
+/scratch/
+/documentation/**/*.aux
+/documentation/**/*.bbl
+/documentation/**/*.bcf
+/documentation/**/*.blg
+/documentation/**/*.listing
+/documentation/**/*.log
+/documentation/**/*.out
+/documentation/**/*.run.xml
+/documentation/**/*.synctex.gz

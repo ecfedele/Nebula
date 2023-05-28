@@ -1,0 +1,48 @@
+\documentclass[a4paper,10pt,notitlepage]{article}
+\usepackage{geometry,fontspec,setspace}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{booktabs,makecell,longtable}
+\usepackage{caption,subcaption,karnaugh-map}
+\usepackage{tikz}
+\usepackage[many,minted]{tcolorbox}
+\usepackage[style=apa,doi=true,sortcites=true,sorting=nyt,backend=biber]{biblatex}
+\bibliography{references.bib}
+\geometry{top=1in,bottom=1in,left=1in,right=1in}
+
+\newtcblisting{myminted}[2][]{%
+	listing engine=minted,
+	minted language=#2,
+	listing only,
+	breakable,
+	enhanced,
+	minted options = {
+		linenos, 
+		breaklines=true, 
+		breakbefore=., 
+		baselinestretch=1,
+		fontsize=\footnotesize, 
+		tabsize=4,
+		numbersep=2mm
+	},
+	overlay={%
+		\begin{tcbclipinterior}
+			\fill[gray!25] (frame.south west) rectangle ([xshift=4mm]frame.north west);
+		\end{tcbclipinterior}
+	},
+	#1   
+}
+
+\title{Design of the \textit{Nebula} Instruction Decoder}
+\author{{Elijah Creed Fedele}}
+\date{May 28, 2023}
+
+\begin{document}
+	\maketitle
+	
+	\section{Introduction}
+	
+	In the traditional five-stage RISC pipeline model, the purpose of the instruction decode (ID) stage is to translate the 32-bit instruction into smaller chunks of signals which can be passed to the control and execution units to direct and sequence the instruction's operations. Because the instruction decoder is directly responsible for translating the instruction encoding into ``actionable'' commands, it is here where the complexity of an instruction set is most felt. As such, it can range from a few basic constructions of look-up tables (LUTs) and multiplexers in RISC architectures to large, state machine-driven, microcoded instruction translators in CISC processors.
+	
+	The RISC-V architecture is designed with the intent to be relatively simple to decode, and this feature is primarily expressed in the modularity of the instruction opcode layout. 
+	
+\end{document}
