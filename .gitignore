@@ -8,3 +8,4 @@
 /documentation/**/*.out
 /documentation/**/*.run.xml
 /documentation/**/*.synctex.gz
+/documentation/**/*.toc
