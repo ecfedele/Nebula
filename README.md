@@ -1,6 +1,6 @@
 # The *Nebula* RISC-V (RV32) Core
 
-The *Nebula* core is a from-scratch implementation of the 32-bit RISC-V instruction set architecture in synthesizable VHDL optimized for FPGA use. Implementing the RV32I and RV32M integer instruction sets as well as the RV32F and RV32D floating-point extensions, *Nebula* seeks to provide a high-performance proof-of-concept RISC-V core for embedded applications.
+The *Nebula* core is a from-scratch implementation of the 32-bit RISC-V instruction set architecture in synthesizable VHDL optimized for FPGA use. Providing a full-featured RV32G (IMAFD) implementation, *Nebula* seeks to provide a high-performance proof-of-concept RISC-V core for embedded applications.
 
 As this project is still in its early stages, it is important to check this README regularly to keep apprised of the implementation status of various features. In a nutshell, the *Nebula* project seeks to:
 
