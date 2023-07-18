@@ -35,6 +35,7 @@ use     IEEE.NUMERIC_STD.ALL;
 --              n_rst           (    1)     Asynchronous reset signal (active LOW)               --
 --              n_we            (    1)     Write-enable signal (active LOW)                     --
 --              n_oea, n_oeb    (    1)     Output-enable signals (active LOW)                   --
+--                                                                                               --
 -- Outputs:     dout_a, dout_b  (REG_WIDTH) Output buses (REG_WIDTH-bit wide)                    --
 ---------------------------------------------------------------------------------------------------
 entity Register_3P is
