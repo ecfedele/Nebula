@@ -42,10 +42,10 @@ use     IEEE.NUMERIC_STD.ALL;
 --                                  from receiving new data and the stage output registers from  --
 --                                  clearing.                                                    --
 --                                                                                               --
--- Outputs:     n_bad_inst  ( 1)    Bad (illegal/undefined) instruction signal                     --
+-- Outputs:     n_bad_inst  ( 1)    Bad (illegal/undefined) instruction signal                   --
 --              reg_d       ( 5)    Destination register address                                 --
---              reg_sa      ( 5)    First source operand register address                          --
---              reg_sb      ( 5)    Second source operand register address                         --
+--              reg_sa      ( 5)    First source operand register address                        --
+--              reg_sb      ( 5)    Second source operand register address                       --
 --              reg_conf    ( 3)    Bundle indicating register configuration (see notes below)   --
 --              immed       (32)    Immediate output, extended to 32-bit                         --
 ---------------------------------------------------------------------------------------------------
