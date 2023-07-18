@@ -43,7 +43,7 @@ entity Register_3P is
         data_in          : in  STD_LOGIC_VECTOR(REG_WIDTH-1 downto 0);
         clk, n_rst, n_we : in  STD_LOGIC;
         n_oea, n_oeb     : in  STD_LOGIC;
-        dout_a, dout_b   : out STD_LOGIC_VECTOR(REG_WIDTH-1 downto 0);
+        dout_a, dout_b   : out STD_LOGIC_VECTOR(REG_WIDTH-1 downto 0)
     );
 end entity Register_3P;
 
