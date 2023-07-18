@@ -20,8 +20,8 @@
 ---------------------------------------------------------------------------------------------------
 
 library IEEE;
-use 	IEEE.STD_LOGIC_1164.ALL;
-use 	IEEE.NUMERIC_STD.ALL;
+use     IEEE.STD_LOGIC_1164.ALL;
+use     IEEE.NUMERIC_STD.ALL;
 
 ---------------------------------------------------------------------------------------------------
 -- Module:      Register_2P                                                                      --
@@ -29,13 +29,13 @@ use 	IEEE.NUMERIC_STD.ALL;
 --              independent output control signals. Employs tri-state ('Z') signaling on the     --
 --              output ports for compatibility with parallel bus implementations.                --
 --                                                                                               --
--- Parameters:	REG_WIDTH	    (INTEGER)	Configures the register's data width                 --
--- Inputs:      data_in       	(REG_WIDTH) Main data input (REG_WIDTH-bit wide)                 --
---              clk           	(    1)	    Clock signal input                                   --
---              n_rst         	(    1) 	Asynchronous reset signal (active LOW)               --
---              n_we        	(    1) 	Write-enable signal (active LOW)                     --
---              n_oea, n_oeb 	(    1) 	Output-enable signals (active LOW)                   --
--- Outputs:     dout_a, dout_b 	(REG_WIDTH) Output buses (REG_WIDTH-bit wide)                    --
+-- Parameters:  REG_WIDTH       (INTEGER)   Configures the register's data width                 --
+-- Inputs:      data_in         (REG_WIDTH) Main data input (REG_WIDTH-bit wide)                 --
+--              clk             (    1)     Clock signal input                                   --
+--              n_rst           (    1)     Asynchronous reset signal (active LOW)               --
+--              n_we            (    1)     Write-enable signal (active LOW)                     --
+--              n_oea, n_oeb    (    1)     Output-enable signals (active LOW)                   --
+-- Outputs:     dout_a, dout_b  (REG_WIDTH) Output buses (REG_WIDTH-bit wide)                    --
 ---------------------------------------------------------------------------------------------------
 entity Register_3P is
     generic(REG_WIDTH : INTEGER := 32);
