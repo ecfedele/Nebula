@@ -48,6 +48,9 @@ use     IEEE.NUMERIC_STD.ALL;
 --              reg_sb      ( 5)    Second source operand register address                       --
 --              reg_conf    ( 3)    Bundle indicating register configuration (see notes below)   --
 --              immed       (32)    Immediate output, extended to 32-bit                         --
+--              alu_in      ( 1)    Indicates an integer arithmetic (ALU) instruction            --
+--              fpu_in      ( 1)    Indicates a floating-point (FPU) instruction                 --
+--              fpu_sd      ( 1)    Single/double-precision FPU mode switch - 0 single, 1 double --
 ---------------------------------------------------------------------------------------------------
 entity Instruction_Decoder is 
     port(
@@ -59,6 +62,7 @@ entity Instruction_Decoder is
         reg_sa, reg_sb, reg_sc : out STD_LOGIC_VECTOR( 4 downto 0);
         reg_conf               : out STD_LOGIC_VECTOR( 2 downto 0);
         immed                  : out STD_LOGIC_VECTOR(31 downto 0);
+        alu_in, fpu_in, fpu_sd : out STD_LOGIC;
     );
 end entity Instruction_Decoder;
 
