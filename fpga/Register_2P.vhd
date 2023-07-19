@@ -70,7 +70,24 @@ begin
     -- maintain the buses in tri-state/high-Z configuration.
     OUTPUTS: process(State, n_oea, n_oeb)
     begin
-        dout_a <= State when n_oea = '0' else (others => 'Z');
-        dout_b <= State when n_oeb = '0' else (others => 'Z');
+        -- EDIT 7/19/23: Can't use "dout_a <= State when n_oea = '0' else (others => 'Z')"
+        -- because fucking Intel *removed* support for VHDL-2008 in Quartus Prime Lite
+        -- versions. WIll investigate rolling back to 19.2 (which apparently has support);
+        -- until then, enjoy using 5 lines to indicate what was succintly expressed by one.
+        if n_oea = '0' then
+            dout_a <= State;
+        else 
+            dout_a <= (others => 'Z');
+        end if;
+
+        -- EDIT 7/19/23: Can't use "dout_b <= State when n_oeb = '0' else (others => 'Z')"
+        -- because fucking Intel *removed* support for VHDL-2008 in Quartus Prime Lite
+        -- versions. WIll investigate rolling back to 19.2 (which apparently has support);
+        -- until then, enjoy using 5 lines to indicate what was succintly expressed by one.
+        if n_oea = '0' then
+            dout_a <= State;
+        else 
+            dout_a <= (others => 'Z');
+        end if;
     end process OUTPUTS;
 end architecture RTL;
