@@ -59,7 +59,7 @@ architecture RTL of Register_File is
         generic(REG_WIDTH : INTEGER);
         port(
             data_in          : in  STD_LOGIC_VECTOR(REG_WIDTH-1 downto 0);
-            clk, n_rst, n_we : in  STD_LOGIC;
+            clk, n_rst, n_wr : in  STD_LOGIC;
             n_oea, n_oeb     : in  STD_LOGIC;
             dout_a, dout_b   : out STD_LOGIC_VECTOR(REG_WIDTH-1 downto 0)
         );
@@ -107,7 +107,7 @@ begin
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => '0',
-                n_we    => dec_d(I),
+                n_wr    => dec_d(I),
                 r_oea   => dec_s1(I),
                 n_oeb   => dec_s2(I),
                 dout_a  => dout_s1,
@@ -118,7 +118,7 @@ begin
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => n_rst,
-                n_we    => dec_d(I),
+                n_wr    => dec_d(I),
                 r_oea   => dec_s1(I),
                 n_oeb   => dec_s2(I),
                 dout_a  => dout_s1,

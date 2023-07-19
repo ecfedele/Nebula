@@ -33,7 +33,7 @@ use     IEEE.NUMERIC_STD.ALL;
 -- Inputs:      data_in         (REG_WIDTH) Main data input (REG_WIDTH-bit wide)                 --
 --              clk             (    1)     Clock signal input                                   --
 --              n_rst           (    1)     Asynchronous reset signal (active LOW)               --
---              n_we            (    1)     Write-enable signal (active LOW)                     --
+--              n_wr            (    1)     Write-enable signal (active LOW)                     --
 --              n_oea, n_oeb    (    1)     Output-enable signals (active LOW)                   --
 --                                                                                               --
 -- Outputs:     dout_a, dout_b  (REG_WIDTH) Output buses (REG_WIDTH-bit wide)                    --
@@ -42,7 +42,7 @@ entity Register_3P is
     generic(REG_WIDTH : INTEGER := 32);
     port(
         data_in          : in  STD_LOGIC_VECTOR(REG_WIDTH-1 downto 0);
-        clk, n_rst, n_we : in  STD_LOGIC;
+        clk, n_rst, n_wr : in  STD_LOGIC;
         n_oea, n_oeb     : in  STD_LOGIC;
         dout_a, dout_b   : out STD_LOGIC_VECTOR(REG_WIDTH-1 downto 0)
     );
@@ -59,7 +59,7 @@ begin
     begin
         if n_rst = '0' then
             State <= (others => '0');
-        elsif rising_edge(clk) and n_we = '0' then
+        elsif rising_edge(clk) and n_wr = '0' then
             State <= data_in;
         end if;
     end process CLOCK_PROC;
