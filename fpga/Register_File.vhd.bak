@@ -102,8 +102,8 @@ begin
     -- reset line (n_rst) permanently low. For all others, the register line n_rst signal is 
     -- connected to the entity top-level reset signal.
     GENERATE_REGS: for I in 0 to 31 generate
-        RZERO: if I = 0 generate
-            ZERO_LINE: Register_2P port map (
+        if I = 0 then
+            ZERO_LINE: Register_2P generic map (REG_WIDTH => REG_WIDTH) port map (
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => '0',
@@ -113,9 +113,8 @@ begin
                 dout_a  => dout_s1,
                 dout_b  => dout_s2
             );
-        end generate RZERO;
-		  OTHER: if I /= 0 generate
-            REG_LINE: Register_2P port map (
+        else
+            REG_LINE: Register_2P generic map (REG_WIDTH => REG_WIDTH) port map (
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => n_rst,
@@ -125,6 +124,6 @@ begin
                 dout_a  => dout_s1,
                 dout_b  => dout_s2
             );
-        end generate OTHER;
+        end if;
     end generate GENERATE_REGS;
 end architecture RTL;
