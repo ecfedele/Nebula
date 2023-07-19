@@ -39,7 +39,7 @@ use     IEEE.NUMERIC_STD.ALL;
 -- Outputs:     dout_s1, dout_s2   (REG_WIDTH) Output buses (REG_WIDTH-bit wide)                 --
 ---------------------------------------------------------------------------------------------------
 entity Register_File is 
-    generic(REG_WIDTH : INTEGER := 32);
+    generic(DATA_WIDTH : INTEGER := 32);
     port(
         data_in                     : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         clk, n_rst, n_wr, n_rd      : in  STD_LOGIC;
@@ -103,24 +103,24 @@ begin
     -- connected to the entity top-level reset signal.
     GENERATE_REGS: for I in 0 to 31 generate
         RZERO: if I = 0 generate
-            ZERO_LINE: Register_2P generic map (REG_WIDTH => REG_WIDTH) port map (
+            ZERO_LINE: Register_2P generic map (REG_WIDTH => DATA_WIDTH) port map (
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => '0',
                 n_wr    => dec_d(I),
-                r_oea   => dec_s1(I),
+                n_oea   => dec_s1(I),
                 n_oeb   => dec_s2(I),
                 dout_a  => dout_s1,
                 dout_b  => dout_s2
             );
         end generate RZERO;
         OTHER: if I /= 0 generate
-            REG_LINE: Register_2P generic map (REG_WIDTH => REG_WIDTH) port map (
+            REG_LINE: Register_2P generic map (REG_WIDTH => DATA_WIDTH) port map (
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => n_rst,
                 n_wr    => dec_d(I),
-                r_oea   => dec_s1(I),
+                n_oea   => dec_s1(I),
                 n_oeb   => dec_s2(I),
                 dout_a  => dout_s1,
                 dout_b  => dout_s2

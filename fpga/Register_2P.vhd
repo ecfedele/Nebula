@@ -72,7 +72,7 @@ begin
     begin
         -- EDIT 7/19/23: Can't use "dout_a <= State when n_oea = '0' else (others => 'Z')"
         -- because fucking Intel *removed* support for VHDL-2008 in Quartus Prime Lite
-        -- versions. WIll investigate rolling back to 19.2 (which apparently has support);
+        -- versions. WIll investigate rolling back to 19.1 (which apparently has support);
         -- until then, enjoy using 5 lines to indicate what was succintly expressed by one.
         if n_oea = '0' then
             dout_a <= State;
@@ -82,7 +82,7 @@ begin
 
         -- EDIT 7/19/23: Can't use "dout_b <= State when n_oeb = '0' else (others => 'Z')"
         -- because fucking Intel *removed* support for VHDL-2008 in Quartus Prime Lite
-        -- versions. WIll investigate rolling back to 19.2 (which apparently has support);
+        -- versions. WIll investigate rolling back to 19.1 (which apparently has support);
         -- until then, enjoy using 5 lines to indicate what was succintly expressed by one.
         if n_oeb = '0' then
             dout_b <= State;

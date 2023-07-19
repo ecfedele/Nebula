@@ -9,3 +9,7 @@
 /documentation/**/*.run.xml
 /documentation/**/*.synctex.gz
 /documentation/**/*.toc
+
+/fpga/**/*.rdr.flock
+/fpga/**/*.bak
+/fpga/**/*.qmsg
