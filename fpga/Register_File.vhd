@@ -114,7 +114,7 @@ begin
                 dout_b  => dout_s2
             );
         end generate RZERO;
-		  OTHER: if I /= 0 generate
+        OTHER: if I /= 0 generate
             REG_LINE: Register_2P port map (
                 data_in => data_in,
                 clk     => clk,
