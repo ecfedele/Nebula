@@ -63,8 +63,24 @@ begin
     -- maintain the buses in tri-state/high-Z configuration.
     OUTPUT_PROC: process(FP_State, fpu_sd, n_oea, n_oeb, n_oec)
     begin
-        dout_a <= FP_State when n_oea = '0' else (others => 'Z');
-        dout_b <= FP_State when n_oeb = '0' else (others => 'Z');
-        dout_c <= FP_State when n_oec = '0' else (others => 'Z');
+        -- See OUTPUTS process in Register_2P for more information.
+        -- This may be found beginning with commit e60bcdf.
+        if n_oea = '0' then
+            dout_a <= FP_State;
+        else 
+            dout_a <= (others => 'Z');
+        end if;
+
+        if n_oeb = '0' then
+            dout_b <= FP_State;
+        else 
+            dout_b <= (others => 'Z');
+        end if;
+
+        if n_oec = '0' then
+            dout_c <= FP_State;
+        else 
+            dout_c <= (others => 'Z');
+        end if;
     end process OUTPUT_PROC;
 end architecture RTL;

@@ -33,7 +33,7 @@ use     IEEE.NUMERIC_STD.ALL;
 -- Inputs:      data_in                (STD_LOGIC_VECTOR) Main data input (REG_WIDTH-bit wide)   --
 --              clk                    (STD_LOGIC)        Clock signal input                     --
 --              n_rst                  (STD_LOGIC)        Asynchronous reset signal (active LOW) --
---              n_we                   (STD_LOGIC)        Write-enable signal (active LOW)       --
+--              n_wr                   (STD_LOGIC)        Write-enable signal (active LOW)       --
 --              n_oea, n_oeb, n_oec    (STD_LOGIC)        Output-enable signals (active LOW)     --
 -- Outputs:     dout_a, dout_b, dout_c (STD_LOGIC_VECTOR) Output buses (REG_WIDTH-bit wide)      --
 ---------------------------------------------------------------------------------------------------
@@ -69,8 +69,24 @@ begin
     -- maintain the buses in tri-state/high-Z configuration.
     OUTPUTS: process(State, n_oea, n_oeb, n_oec)
     begin
-        dout_a <= State when n_oea = '0' else (others => 'Z');
-        dout_b <= State when n_oeb = '0' else (others => 'Z');
-        dout_c <= State when n_oec = '0' else (others => 'Z');
+        -- See OUTPUTS process in Register_2P for more information.
+        -- This may be found beginning with commit e60bcdf.
+        if n_oea = '0' then
+            dout_a <= State;
+        else 
+            dout_a <= (others => 'Z');
+        end if;
+
+        if n_oeb = '0' then
+            dout_b <= State;
+        else 
+            dout_b <= (others => 'Z');
+        end if;
+
+        if n_oec = '0' then
+            dout_c <= State;
+        else 
+            dout_c <= (others => 'Z');
+        end if;
     end process OUTPUTS;
 end architecture RTL;

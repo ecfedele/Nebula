@@ -103,7 +103,7 @@ begin
     -- connected to the entity top-level reset signal.
     GENERATE_REGS: for I in 0 to 31 generate
         RZERO: if I = 0 generate
-            ZERO_LINE: Register_2P port map (
+            ZERO_LINE: Register_2P generic map (REG_WIDTH => REG_WIDTH) port map (
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => '0',
@@ -115,7 +115,7 @@ begin
             );
         end generate RZERO;
         OTHER: if I /= 0 generate
-            REG_LINE: Register_2P port map (
+            REG_LINE: Register_2P generic map (REG_WIDTH => REG_WIDTH) port map (
                 data_in => data_in,
                 clk     => clk,
                 n_rst   => n_rst,
