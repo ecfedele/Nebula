@@ -67,7 +67,9 @@ entity Instruction_Decoder is
 end entity Instruction_Decoder;
 
 architecture RTL of Instruction_Decoder is
-    signal opcode : STD_LOGIC_VECTOR(6 downto 0) := instruction(6 downto 0);
+    signal opcode : STD_LOGIC_VECTOR(6 downto 0) := instruction( 6 downto  0);
+    signal funct3 : STD_LOGIC_VECTOR(2 downto 0) := instruction(14 downto 12);
+    signal funct7 : STD_LOGIC_VECTOR(6 downto 0) := instruction(31 downto 25);
 begin
     DECODE: process(clk, n_rst)
     begin
@@ -75,7 +77,61 @@ begin
             -- Flush all gate/DFF states
         elsif rising_edge(clk) and n_irdy = '0' and n_stall = '1' then
             case opcode is
-            
+                -- RISC-V opcode LOAD
+                -- Implements instructions LB, LH, LW, LBU, and LHU
+                ---------------------------------------------------
+                when "0000011" =>
+                    case funct3 is
+                        when "000"  => -- LB
+                        when "001"  => -- LH
+                        when "010"  => -- LW
+                        when "100"  => -- LBU
+                        when "101"  => -- LHU
+                        when others => n_bad_inst <= '0';
+                    end case;
+                
+                -- RISC-V opcode STORE
+                -- Implements instructions SB, SH, and SW
+                -----------------------------------------
+                when "0100011" =>
+                    case funct3 is
+                        when "000"  => -- SB
+                        when "001"  => -- SH
+                        when "010"  => -- SW
+                        when others => n_bad_inst <= '0';
+                    end case;
+                
+                -- RISC-V opcode OP-IMM
+                -- Implements instructions ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, and SRAI
+                -----------------------------------------------------------------------------------
+                when "0010011" =>
+                    -- ADDI, SLTI, SLTIU, XORI, ORI, ANDI, SLLI, SRLI, SRAI
+
+                    
+                when "0110011" =>
+                    case funct3 is
+                        when "000"  =>
+                            case funct7 is
+                                when "0000000" => -- ADD
+                                when "0100000" => -- SUB
+                                when "0000001" => -- MUL
+                                when others => n_bad_inst <= '0';
+                            end case;
+                        when "001"  =>
+                            case funct7 is
+                                when "0000000" => -- SLL
+                                when "0000001" => -- MULH
+                                when others => n_bad_inst <= '0';
+                            end case;
+                        when "010"  => -- SLT, MULHSU
+                        when "011"  => -- SLTU, MULHU
+                        when "100"  => -- XOR, DIV
+                        when "101"  => -- SRL, SRA, DIVU
+                        when "110"  => -- OR, REM
+                        when "111"  => -- AND, REMU
+                        when others => n_bad_inst <= '0';
+                    end case;
+                when others => n_bad_inst <= '0';
             end case;
         end if;
     end process DECODE;
