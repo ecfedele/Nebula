@@ -39,7 +39,7 @@ use     IEEE.NUMERIC_STD.ALL;
 --              dout_result        (REG_WIDTH) Result of Arithmetic instruction                  --
 ---------------------------------------------------------------------------------------------------
 entity Alu_32 is 
-    generic(REG_WIDTH : INTEGER := 32);
+    generic(DATA_WIDTH : INTEGER := 32);
     port(
         input_a, input_b              : in  STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
         clk, n_rst, din_regwr, alu_in : in  STD_LOGIC;
@@ -52,16 +52,56 @@ end entity Alu_32;
 architecture ALU of ALU_32 is
 
     signal ALU_TMP_Result : STD_LOGIC_VECTOR(DATA_WIDTH-1 downto 0);
+    signal MUL_Result : STD_LOGIC_VECTOR(63 downto 0);
 
 begin
     process(clk, alu_in)
     begin
-        if alu_in = "1" and rising_edge(clk) then 
+        if alu_in = '1' and rising_edge(clk) then 
             case(ALUOp) is
-                when "0000000" => --Addition
+                when "0000000" => --ADD
                     ALU_TMP_Result <= STD_LOGIC_VECTOR(SIGNED(input_a) + SIGNED(input_b));
-                when "0100000" => -- Sub
+                when "0000001" => -- SUB
                     ALU_TMP_RESULT <= STD_LOGIC_VECTOR(SIGNED(input_a) - SIGNED(input_b));
+		--when "0000010" => -- MUL
+		--    MUL_Result <= STD_LOGIC_VECTOR(SIGNED(input_a) * SIGNED(input_b));
+		--    ALU_TMP_RESULT <= MUL_Result(DATA_WIDTH-1 downto 0);
+		--when "0000011" => -- MULH
+		--when "0000100" => -- MULHU
+		when "0000101" => -- DIV
+		    ALU_TMP_RESULT <= STD_LOGIC_VECTOR(SIGNED(input_a) / SIGNED(input_b));
+		when "0000110" => -- DIVU
+		    ALU_TMP_RESULT <= STD_LOGIC_VECTOR(UNSIGNED(input_a) / UNSIGNED(input_b));
+		when "0000111" => -- REM
+		    ALU_TMP_RESULT <= STD_LOGIC_VECTOR(SIGNED(input_a) rem SIGNED(input_b));
+		when "0001000" => -- REMU
+		    ALU_TMP_RESULT <= STD_LOGIC_VECTOR(UNSIGNED(input_a) rem UNSIGNED(input_b));   
+		when "0001001" => -- SLL
+		    ALU_TMP_RESULT <= STD_LOGIC_VECTOR(UNSIGNED(input_a) sll to_integer(UNSIGNED(input_b)));
+	        --when "0001010" => -- SLA
+		    ---ALU_TMP_RESULT <= STD_LOGIC_VECTOR(UNSIGNED(input_a) sla UNSIGNED(input_b));
+	        when "0001011" => -- SRL
+		    ALU_TMP_RESULT <= STD_LOGIC_VECTOR(UNSIGNED(input_a) srl to_integer(UNSIGNED(input_b)));
+		--when "0001100" => -- SRA
+		    --ALU_TMP_RESULT <= STD_LOGIC_VECTOR(UNSIGNED(input_a) sla UNSIGNED(input_b));
+	        when "0001101" => -- SLT
+		    if input_a < input_b then 
+		        ALU_TMP_RESULT <= (0 => '1', others => '0');
+                    else
+	                ALU_TMP_RESULT <= (others => '0'); 
+		    end if;
+		when "0001110" => -- SLTU
+		    if input_a < input_b then 
+		        ALU_TMP_RESULT <= (0 => '1', others => '0');
+                    else
+	                ALU_TMP_RESULT <= (others => '0'); 
+		    end if;
+		when "0001111" => -- AND
+		    ALU_TMP_RESULT <= input_a and input_b;
+		when "0010000" => -- OR
+		    ALU_TMP_RESULT <= input_a or input_b;
+		when "0010001" => -- XOR
+		    ALU_TMP_RESULT <= input_a xor input_b;
                 when others => null;
             end case;
         end if;
