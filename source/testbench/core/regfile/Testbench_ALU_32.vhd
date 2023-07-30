@@ -76,7 +76,7 @@ begin
 	TEST: process
 	begin
 		input_a      <= x"00000001";
-                input_b      <= x"00000001";
+                input_b      <= x"0000000A";
 		ALUOp	     <= "0000000"; --addition opperation
 		clk          <= '0';
 		alu_in       <= '0';
@@ -94,7 +94,7 @@ begin
 		clk <= '1';
 		din_regwr <= '1';
 
-		-- Test operation is performed when alu_in is set high and clock is high
+		-- Test addition operation is performed when alu_in is set high and clock is high
 		clk <= '0';
 		alu_in <= '1';
 		wait for 50 ns;
@@ -102,6 +102,163 @@ begin
 		wait for 50 ns;
 		clk <= '0';
 		alu_in <= '0';
+
+		-- Test subtraction
+		wait for 50 ns;
+		ALUOp <= "0000001";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test Multiplication
+		-- Currently not working
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0000010";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test MULH
+		-- Currently not implemented
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0000011";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test MULHU
+		-- Currently not implemented
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0000100";
+	        alu_in <= '1';
+		clk <= '1';
+
+
+		-- Test Division
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0000101";
+		alu_in <= '1';
+		clk <= '1';
+
+		-- Test Division Unsigned
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0000110";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test Remainder
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0000111";
+		alu_in <= '1';
+		clk <= '1';
+
+		-- Test Remainder Unsigned
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001000";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test SLL
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001001";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test SLA
+		-- Currently not implemented
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001010";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test SRL
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001011";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test SRA
+		-- Currently not implemented
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001100";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test SLT
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001101";
+	        alu_in <= '1';
+		clk <= '1';
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		input_a <= x"0000000A";
+                input_b <= x"00000001";
+		clk <= '1';
+
+		-- Test SLTU
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001110";
+	        alu_in <= '1';
+		clk <= '1';
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		input_a <= x"00000001";
+                input_b <= x"0000000A";
+		clk <= '1';
+
+		-- Test And
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0001111";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test Or
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0010000";
+	        alu_in <= '1';
+		clk <= '1';
+
+		-- Test Xor
+		wait for 50 ns;
+		clk <= '0';
+		wait for 50 ns;
+		ALUOp <= "0010001";
+	        alu_in <= '1';
+		clk <= '1';
+
+		wait for 50 ns;
+
+		--
+
 
 		wait;
 	end process TEST;
