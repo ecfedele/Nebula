@@ -82,6 +82,41 @@ enum logic [6:0] {
 } alu_op_type;
 
 // ---------------------------------------------------------------------------------------------- //
+// Floating-point operation subcodes                                                              //
+// These codes are used to instruct the floating-point unit, and are precision-agnostic. The only //
+// means of difinitively determining which instruction the below subcodes belong to is to decode  //
+// them in the presence of the 'S/D bit' or other precision indicator. The general format for the //
+// encoding is as follows:                                                                        //
+//                                                                                                //
+//     +-----------------------+                                                                  //
+//     |   5   | 4  3  2  1  0 |                                                                  //
+//     | width | function code |                                                                  //
+//     +-----------------------+                                                                  //
+//                                                                                                //
+// In general, the 'width' bit functions similarly to how it operates in the ALU and memory codes //
+// in that it indicates whether an operation is only extant in RV64G or only operates on 64-bit   //
+// integer registers. As such, it can be safely ignored by RV32G-only execution units, as the     //
+// instruction decoder will suss out an invalid instruction prior to issue.                       //
+//                                                                                                // 
+// Some instructions are reordered from their ISA order to better fit the layout patterns of      //
+// functional units designed by men and not machines. Additionally, care must be taken by FPU     //
+// decoders, as four instructions (two pairings) possess only one interpretation and are agnostic //
+// to precision-select switches:                                                                  //
+//     - FMV.X.W (FPU_TXF2I) and FMV.W.X (FPU_TXI2F) are single-precision only                    //
+//     - FMV.X.D (FPU_TXF2L) and FMV.D.X (FPU_TXL2F) are double-precision and 64-bit only         //
+// ---------------------------------------------------------------------------------------------- //
+enum logic [5:0] {
+    FPU_ADD   = 6'b000000, FPU_SUB   = 6'b000001, FPU_MUL   = 6'b000010, FPU_DIV   = 6'b000011,
+    FPU_MADD  = 6'b000100, FPU_MSUB  = 6'b000101, FPU_NMADD = 6'b000110, FPU_NMSUB = 6'b000111,
+    FPU_SQRT  = 6'b001000, FPU_SGNJ  = 6'b001001, FPU_SGNJN = 6'b001010, FPU_SGNJX = 6'b001011,
+    FPU_MIN   = 6'b001100, FPU_MAX   = 6'b001101, FPU_EQ    = 6'b001110, FPU_LT    = 6'b001111,
+    FPU_LE    = 6'b010000, FPU_CLASS = 6'b010001, FPU_F2IS  = 6'b010010, FPU_F2IU  = 6'b010011,
+    FPU_I2FS  = 6'b010100, FPU_I2FU  = 6'b010101, FPU_TXF2I = 6'b010110, FPU_TXI2F = 6'b010111, 
+    FPU_F2LS  = 6'b110010, FPU_F2LU  = 6'b110011, FPU_L2FS  = 6'b110100, FPU_L2FU  = 6'b110101, 
+    FPU_TXF2L = 6'b110110, FPU_TXI2F = 6'b110111
+} fpu_op_type;
+
+// ---------------------------------------------------------------------------------------------- //
 // Non-atomic load/store (memory) subcodes                                                        //
 // These codes are passed to the load/store logic to effect data transfers into and out of the    //
 // processor registers. This subcode possesses the format:                                        //        
