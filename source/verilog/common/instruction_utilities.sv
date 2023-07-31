@@ -78,7 +78,7 @@ enum logic [6:0] {
     IOP_XORI  = 7'b0101110, IOP_SLL    = 7'b0001111, IOP_SLLI  = 7'b0101111, IOP_SLLW  = 7'b1001111,
     IOP_SLLIW = 7'b1101111, IOP_SRL    = 7'b0010000, IOP_SRLI  = 7'b0110000, IOP_SRLW  = 7'b1010000,
     IOP_SRLIW = 7'b1110000, IOP_SRA    = 7'b0010001, IOP_SRAI  = 7'b0110001, IOP_SRAW  = 7'b1010001,
-    IOP_SRAIW = 7'b1110001 
+    IOP_SRAIW = 7'b1110001, IOP_NULL   = 7'b1111111
 } alu_op_type;
 
 // ---------------------------------------------------------------------------------------------- //
@@ -113,7 +113,7 @@ enum logic [5:0] {
     FPU_LE    = 6'b010000, FPU_CLASS = 6'b010001, FPU_F2IS  = 6'b010010, FPU_F2IU  = 6'b010011,
     FPU_I2FS  = 6'b010100, FPU_I2FU  = 6'b010101, FPU_TXF2I = 6'b010110, FPU_TXI2F = 6'b010111, 
     FPU_F2LS  = 6'b110010, FPU_F2LU  = 6'b110011, FPU_L2FS  = 6'b110100, FPU_L2FU  = 6'b110101, 
-    FPU_TXF2L = 6'b110110, FPU_TXI2F = 6'b110111
+    FPU_TXF2L = 6'b110110, FPU_TXI2F = 6'b110111, FPU_NULL  = 6'b111111
 } fpu_op_type;
 
 // ---------------------------------------------------------------------------------------------- //
@@ -139,10 +139,10 @@ enum logic [5:0] {
 // the illegal instruction and flagging it.                                                       //
 // ---------------------------------------------------------------------------------------------- //
 enum logic [5:0] {
-    MEM_LB  = 6'b001000, MEM_LH  = 6'b001001, MEM_LW  = 6'b001010, MEM_LD  = 6'b101011,
-    MEM_LBU = 6'b001100, MEM_LHU = 6'b001101, MEM_LWU = 6'b101110, MEM_FLW = 6'b011010,
-    MEM_FLD = 6'b011011, MEM_SB  = 6'b000000, MEM_SH  = 6'b000001, MEM_SW  = 6'b000010, 
-    MEM_SD  = 6'b100011, MEM_FSW = 6'b010010, MEM_FSD = 6'b010011
+    MEM_LB   = 6'b001000, MEM_LH   = 6'b001001, MEM_LW   = 6'b001010, MEM_LD   = 6'b101011,
+    MEM_LBU  = 6'b001100, MEM_LHU  = 6'b001101, MEM_LWU  = 6'b101110, MEM_FLW  = 6'b011010,
+    MEM_FLD  = 6'b011011, MEM_SB   = 6'b000000, MEM_SH   = 6'b000001, MEM_SW   = 6'b000010, 
+    MEM_SD   = 6'b100011, MEM_FSW  = 6'b010010, MEM_FSD  = 6'b010011, MEM_NULL = 6'b111111
 } mem_op_type;
 
 // ---------------------------------------------------------------------------------------------- //
