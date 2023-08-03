@@ -26,7 +26,7 @@ package instruction_utilities;
 // Contains a complete list of all 32-bit RISC-V instruction opcodes. Note that Nebula still only //
 // supports the RV32G subset, and will emit a bad_instruction signal on any unsupported encoding. //
 // ---------------------------------------------------------------------------------------------- //
-enum logic [6:0] {
+typedef enum logic [6:0] {
     LOAD   = 7'b0000011, LOAD_FP  = 7'b0000111, CUSTOM_0    = 7'b0001011, MISC_MEM  = 7'b0001111,
     OP_IMM = 7'b0010011, AUIPC    = 7'b0010111, OP_IMM_32   = 7'b0011011, INST_48B0 = 7'b0011111,
     STORE  = 7'b0100011, STORE_FP = 7'b0100111, CUSTOM_1    = 7'b0101011, AMO       = 7'b0101111,
@@ -35,7 +35,7 @@ enum logic [6:0] {
     OP_FP  = 7'b1010011, RSVD0    = 7'b1010111, RV128_CUST2 = 7'b1011011, INST_48B1 = 7'b1011111, 
     BRANCH = 7'b1100011, JALR     = 7'b1100111, RSVD1       = 7'b1101011, JAL       = 7'b1101111, 
     SYSTEM = 7'b1110011, RSVD2    = 7'b1110111, RV128_CUST3 = 7'b1111011, INST_VLIW = 7'b1111111
-} opcode_type;
+} RV_OPCODE;
 
 // ---------------------------------------------------------------------------------------------- //
 // Integer operation (ALU) subcodes                                                               //
@@ -67,7 +67,7 @@ enum logic [6:0] {
 // this, issuing the IOP_SLLI, IOP_SRLI, and IOP_SRAI subcodes in both situations. In both cases, //
 // the 5-bit or 6-bit shamt field is zero-extended to the immediate.                              //
 // ---------------------------------------------------------------------------------------------- //
-enum logic [6:0] {
+typedef enum logic [6:0] {
     IOP_ADD   = 7'b0000000, IOP_ADDI   = 7'b0100000, IOP_ADDW  = 7'b1000000, IOP_ADDIW = 7'b1100000,
     IOP_SUB   = 7'b0000001, IOP_SUBW   = 7'b1000001, IOP_SLT   = 7'b0000010, IOP_SLTI  = 7'b0100010,
     IOP_SLTU  = 7'b0000011, IOP_SLTIU  = 7'b0100011, IOP_MUL   = 7'b0000100, IOP_MULW  = 7'b1000100,
@@ -79,7 +79,7 @@ enum logic [6:0] {
     IOP_SLLIW = 7'b1101111, IOP_SRL    = 7'b0010000, IOP_SRLI  = 7'b0110000, IOP_SRLW  = 7'b1010000,
     IOP_SRLIW = 7'b1110000, IOP_SRA    = 7'b0010001, IOP_SRAI  = 7'b0110001, IOP_SRAW  = 7'b1010001,
     IOP_SRAIW = 7'b1110001, IOP_NULL   = 7'b1111111
-} alu_op_type;
+} ALU_SUBCODE;
 
 // ---------------------------------------------------------------------------------------------- //
 // Floating-point operation subcodes                                                              //
@@ -105,7 +105,7 @@ enum logic [6:0] {
 //     - FMV.X.W (FPU_TXF2I) and FMV.W.X (FPU_TXI2F) are single-precision only                    //
 //     - FMV.X.D (FPU_TXF2L) and FMV.D.X (FPU_TXL2F) are double-precision and 64-bit only         //
 // ---------------------------------------------------------------------------------------------- //
-enum logic [5:0] {
+typedef enum logic [5:0] {
     FPU_ADD   = 6'b000000, FPU_SUB   = 6'b000001, FPU_MUL   = 6'b000010, FPU_DIV   = 6'b000011,
     FPU_MADD  = 6'b000100, FPU_MSUB  = 6'b000101, FPU_NMADD = 6'b000110, FPU_NMSUB = 6'b000111,
     FPU_SQRT  = 6'b001000, FPU_SGNJ  = 6'b001001, FPU_SGNJN = 6'b001010, FPU_SGNJX = 6'b001011,
@@ -114,7 +114,7 @@ enum logic [5:0] {
     FPU_I2FS  = 6'b010100, FPU_I2FU  = 6'b010101, FPU_TXF2I = 6'b010110, FPU_TXI2F = 6'b010111, 
     FPU_F2LS  = 6'b110010, FPU_F2LU  = 6'b110011, FPU_L2FS  = 6'b110100, FPU_L2FU  = 6'b110101, 
     FPU_TXF2L = 6'b110110, FPU_TXI2F = 6'b110111, FPU_NULL  = 6'b111111
-} fpu_op_type;
+} FPU_SUBCODE;
 
 // ---------------------------------------------------------------------------------------------- //
 // Non-atomic load/store (memory) subcodes                                                        //
@@ -138,12 +138,12 @@ enum logic [5:0] {
 // implementations to safely ignore it, as the instruction decoder is responsible for detecting   //
 // the illegal instruction and flagging it.                                                       //
 // ---------------------------------------------------------------------------------------------- //
-enum logic [5:0] {
+typedef enum logic [5:0] {
     MEM_LB   = 6'b001000, MEM_LH   = 6'b001001, MEM_LW   = 6'b001010, MEM_LD   = 6'b101011,
     MEM_LBU  = 6'b001100, MEM_LHU  = 6'b001101, MEM_LWU  = 6'b101110, MEM_FLW  = 6'b011010,
     MEM_FLD  = 6'b011011, MEM_SB   = 6'b000000, MEM_SH   = 6'b000001, MEM_SW   = 6'b000010, 
     MEM_SD   = 6'b100011, MEM_FSW  = 6'b010010, MEM_FSD  = 6'b010011, MEM_NULL = 6'b111111
-} mem_op_type;
+} MEM_SUBCODE;
 
 // ---------------------------------------------------------------------------------------------- //
 // Sign-extension and zero-extension functions                                                    //

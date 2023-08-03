@@ -32,10 +32,6 @@ module instruction_decoder #(parameter BITS = 32) (
 );
 
     import instruction_utilities::*;
-    alu_op_type alu_subcode;
-    fpu_op_type fpu_subcode;
-    mem_op_type mem_subcode;
-
     wire [ 6:0] opcode;
     wire [ 6:0] funct7;
     wire [ 2:0] funct3;
@@ -60,38 +56,38 @@ module instruction_decoder #(parameter BITS = 32) (
                 // ------------------------------------------------------------------------------ //
                 LOAD: begin
                     inst_type <= 4'b0001;
-                    alu_op    <= IOP_NULL;
-                    fpu_op    <= FPU_NULL;
+                    alu_op    <= ALU_SUBCODE.IOP_NULL;
+                    fpu_op    <= FPU_SUBCODE.FPU_NULL;
                     immed     <= (BITS == 32) ? signx12w(imm11) : signx12d(imm11);
                     reg_d     <= instruction[11: 7];
                     reg_s1    <= instruction[19:15];
                     case (funct3)
                         3'b000: begin // LB
-                            mem_op     <= MEM_LB;
+                            mem_op     <= MEM_SUBCODE.MEM_LB;
                             n_bad_inst <= 1'b1;
                         end
                         3'b001: begin // LH
-                            mem_op     <= MEM_LH;
+                            mem_op     <= MEM_SUBCODE.MEM_LH;
                             n_bad_inst <= 1'b1;
                         end 
                         3'b010: begin // LW
-                            mem_op     <= MEM_LW;
+                            mem_op     <= MEM_SUBCODE.MEM_LW;
                             n_bad_inst <= 1'b1;
                         end
                         3'b011: begin // LD
-                            mem_op     <= MEM_LD;
+                            mem_op     <= MEM_SUBCODE.MEM_LD;
                             n_bad_inst <= (BITS == 32) ? 1'b0 : 1'b1;
                         end 
                         3'b100: begin // LBU
-                            mem_op     <= MEM_LBU;
+                            mem_op     <= MEM_SUBCODE.MEM_LBU;
                             n_bad_inst <= 1'b1;
                         end
                         3'b101: begin // LHU
-                            mem_op     <= MEM_LHU;
+                            mem_op     <= MEM_SUBCODE.MEM_LHU;
                             n_bad_inst <= 1'b1;
                         end 
                         3'b110: begin // LWU
-                            mem_op     <= MEM_LWU;
+                            mem_op     <= MEM_SUBCODE.MEM_LWU;
                             n_bad_inst <= (BITS == 32) ? 1'b0 : 1'b1;
                         end
                         default: begin
@@ -105,20 +101,20 @@ module instruction_decoder #(parameter BITS = 32) (
                 // These instructions load floating-point data into FPU registers.
                 // ------------------------------------------------------------------------------ //
                 LOAD_FP: begin
-                    alu_op    <= IOP_NULL;
-                    fpu_op    <= FPU_NULL;
+                    alu_op    <= ALU_SUBCODE.IOP_NULL;
+                    fpu_op    <= FPU_SUBCODE.FPU_NULL;
                     immed     <= (BITS == 32) ? signx12w(imm11) : signx12d(imm11);
                     reg_d     <= instruction[11: 7];
                     reg_s1    <= instruction[19:15];
                     case (funct3)
                         3'b010: begin // FLW
                             inst_type  <= 4'b0101;
-                            mem_op     <= MEM_FLW;
+                            mem_op     <= MEM_SUBCODE.MEM_FLW;
                             n_bad_inst <= 1'b1;
                         end
                         3'b011: begin // FLD
                             inst_type  <= 4'b0111;
-                            mem_op     <= MEM_FLD;
+                            mem_op     <= MEM_SUBCODE.MEM_FLD;
                             n_bad_inst <= 1'b1;
                         end
                         default: begin
@@ -136,9 +132,9 @@ module instruction_decoder #(parameter BITS = 32) (
                 MISC_MEM: begin
                     fence     <= 1'b1;
                     inst_type <= 4'b1000;
-                    alu_op    <= IOP_ADDI;
-                    fpu_op    <= FPU_NULL;
-                    mem_op    <= MEM_NULL;
+                    alu_op    <= ALU_SUBCODE.IOP_ADDI;
+                    fpu_op    <= FPU_SUBCODE.FPU_NULL;
+                    mem_op    <= MEM_SUBCODE.MEM_NULL;
                     reg_d     <= 5'b00000;
                     reg_s1    <= 5'b00000;
                     immed     <= 32'h00000000;
