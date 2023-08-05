@@ -35,7 +35,7 @@ typedef enum logic [6:0] {
     OP_FP  = 7'b1010011, RSVD0    = 7'b1010111, RV128_CUST2 = 7'b1011011, INST_48B1 = 7'b1011111, 
     BRANCH = 7'b1100011, JALR     = 7'b1100111, RSVD1       = 7'b1101011, JAL       = 7'b1101111, 
     SYSTEM = 7'b1110011, RSVD2    = 7'b1110111, RV128_CUST3 = 7'b1111011, INST_VLIW = 7'b1111111
-} RV_OPCODE;
+} rv_opcode_e;
 
 // ---------------------------------------------------------------------------------------------- //
 // Integer operation (ALU) subcodes                                                               //
@@ -79,7 +79,7 @@ typedef enum logic [6:0] {
     IOP_SLLIW = 7'b1101111, IOP_SRL    = 7'b0010000, IOP_SRLI  = 7'b0110000, IOP_SRLW  = 7'b1010000,
     IOP_SRLIW = 7'b1110000, IOP_SRA    = 7'b0010001, IOP_SRAI  = 7'b0110001, IOP_SRAW  = 7'b1010001,
     IOP_SRAIW = 7'b1110001, IOP_NULL   = 7'b1111111
-} ALU_SUBCODE;
+} alu_subcode_e;
 
 // ---------------------------------------------------------------------------------------------- //
 // Floating-point operation subcodes                                                              //
@@ -114,7 +114,7 @@ typedef enum logic [5:0] {
     FPU_I2FS  = 6'b010100, FPU_I2FU  = 6'b010101, FPU_TXF2I = 6'b010110, FPU_TXI2F = 6'b010111, 
     FPU_F2LS  = 6'b110010, FPU_F2LU  = 6'b110011, FPU_L2FS  = 6'b110100, FPU_L2FU  = 6'b110101, 
     FPU_TXF2L = 6'b110110, FPU_TXI2F = 6'b110111, FPU_NULL  = 6'b111111
-} FPU_SUBCODE;
+} fpu_subcode_e;
 
 // ---------------------------------------------------------------------------------------------- //
 // Non-atomic load/store (memory) subcodes                                                        //
@@ -143,7 +143,7 @@ typedef enum logic [5:0] {
     MEM_LBU  = 6'b001100, MEM_LHU  = 6'b001101, MEM_LWU  = 6'b101110, MEM_FLW  = 6'b011010,
     MEM_FLD  = 6'b011011, MEM_SB   = 6'b000000, MEM_SH   = 6'b000001, MEM_SW   = 6'b000010, 
     MEM_SD   = 6'b100011, MEM_FSW  = 6'b010010, MEM_FSD  = 6'b010011, MEM_NULL = 6'b111111
-} MEM_SUBCODE;
+} mem_subcode_e;
 
 // ---------------------------------------------------------------------------------------------- //
 // Sign-extension and zero-extension functions                                                    //

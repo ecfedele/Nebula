@@ -32,7 +32,7 @@ module instruction_decoder #(parameter BITS = 32) (
 );
 
     import instruction_utilities::*;
-    wire [ 6:0] opcode;
+    rv_opcode_e opcode = rv_opcode_e'(instruction[6:0]);
     wire [ 6:0] funct7;
     wire [ 2:0] funct3;
     wire [11:0] imm11;
@@ -56,38 +56,38 @@ module instruction_decoder #(parameter BITS = 32) (
                 // ------------------------------------------------------------------------------ //
                 LOAD: begin
                     inst_type <= 4'b0001;
-                    alu_op    <= ALU_SUBCODE.IOP_NULL;
-                    fpu_op    <= FPU_SUBCODE.FPU_NULL;
+                    alu_op    <= alu_subcode_e.IOP_NULL;
+                    fpu_op    <= fpu_subcode_e.FPU_NULL;
                     immed     <= (BITS == 32) ? signx12w(imm11) : signx12d(imm11);
                     reg_d     <= instruction[11: 7];
                     reg_s1    <= instruction[19:15];
                     case (funct3)
                         3'b000: begin // LB
-                            mem_op     <= MEM_SUBCODE.MEM_LB;
+                            mem_op     <= mem_subcode_e.MEM_LB;
                             n_bad_inst <= 1'b1;
                         end
                         3'b001: begin // LH
-                            mem_op     <= MEM_SUBCODE.MEM_LH;
+                            mem_op     <= mem_subcode_e.MEM_LH;
                             n_bad_inst <= 1'b1;
                         end 
                         3'b010: begin // LW
-                            mem_op     <= MEM_SUBCODE.MEM_LW;
+                            mem_op     <= mem_subcode_e.MEM_LW;
                             n_bad_inst <= 1'b1;
                         end
                         3'b011: begin // LD
-                            mem_op     <= MEM_SUBCODE.MEM_LD;
+                            mem_op     <= mem_subcode_e.MEM_LD;
                             n_bad_inst <= (BITS == 32) ? 1'b0 : 1'b1;
                         end 
                         3'b100: begin // LBU
-                            mem_op     <= MEM_SUBCODE.MEM_LBU;
+                            mem_op     <= mem_subcode_e.MEM_LBU;
                             n_bad_inst <= 1'b1;
                         end
                         3'b101: begin // LHU
-                            mem_op     <= MEM_SUBCODE.MEM_LHU;
+                            mem_op     <= mem_subcode_e.MEM_LHU;
                             n_bad_inst <= 1'b1;
                         end 
                         3'b110: begin // LWU
-                            mem_op     <= MEM_SUBCODE.MEM_LWU;
+                            mem_op     <= mem_subcode_e.MEM_LWU;
                             n_bad_inst <= (BITS == 32) ? 1'b0 : 1'b1;
                         end
                         default: begin
@@ -101,20 +101,20 @@ module instruction_decoder #(parameter BITS = 32) (
                 // These instructions load floating-point data into FPU registers.
                 // ------------------------------------------------------------------------------ //
                 LOAD_FP: begin
-                    alu_op    <= ALU_SUBCODE.IOP_NULL;
-                    fpu_op    <= FPU_SUBCODE.FPU_NULL;
+                    alu_op    <= alu_subcode_e.IOP_NULL;
+                    fpu_op    <= fpu_subcode_e.FPU_NULL;
                     immed     <= (BITS == 32) ? signx12w(imm11) : signx12d(imm11);
                     reg_d     <= instruction[11: 7];
                     reg_s1    <= instruction[19:15];
                     case (funct3)
                         3'b010: begin // FLW
                             inst_type  <= 4'b0101;
-                            mem_op     <= MEM_SUBCODE.MEM_FLW;
+                            mem_op     <= mem_subcode_e.MEM_FLW;
                             n_bad_inst <= 1'b1;
                         end
                         3'b011: begin // FLD
                             inst_type  <= 4'b0111;
-                            mem_op     <= MEM_SUBCODE.MEM_FLD;
+                            mem_op     <= mem_subcode_e.MEM_FLD;
                             n_bad_inst <= 1'b1;
                         end
                         default: begin
@@ -132,9 +132,9 @@ module instruction_decoder #(parameter BITS = 32) (
                 MISC_MEM: begin
                     fence     <= 1'b1;
                     inst_type <= 4'b1000;
-                    alu_op    <= ALU_SUBCODE.IOP_ADDI;
-                    fpu_op    <= FPU_SUBCODE.FPU_NULL;
-                    mem_op    <= MEM_SUBCODE.MEM_NULL;
+                    alu_op    <= alu_subcode_e.IOP_ADDI;
+                    fpu_op    <= fpu_subcode_e.FPU_NULL;
+                    mem_op    <= mem_subcode_e.MEM_NULL;
                     reg_d     <= 5'b00000;
                     reg_s1    <= 5'b00000;
                     immed     <= 32'h00000000;
@@ -173,15 +173,62 @@ module instruction_decoder #(parameter BITS = 32) (
                     reg_s2    <= instruction[24:20];
                     case (funct3)
                         3'b000: begin // ADD, SUB
-
+                            case (funct7)
+                                7'b0000000: begin
+                                    alu_op     <= alu_subcode_e.IOP_ADD;
+                                    n_bad_inst <= 1'b1;
+                                end
+                                7'b0100000: begin
+                                    alu_op     <= alu_subcode_e.IOP_SUB;
+                                    n_bad_inst <= 1'b1;
+                                end
+                                default: begin
+                                    n_bad_inst <= 1'b0;
+                                end
+                            endcase
                         end
-                        3'b001: begin end
-                        3'b010: begin end
-                        3'b011: begin end
-                        3'b100: begin end
-                        3'b101: begin end
-                        3'b110: begin end
-                        3'b111: begin end 
+                        3'b001: begin // SLL
+                            alu_op     <= alu_subcode_e.IOP_SLL;
+                            n_bad_inst <= 1'b1;
+                        end
+                        3'b010: begin // SLT
+                            alu_op     <= alu_subcode_e.IOP_SLT;
+                            n_bad_inst <= 1'b1;
+                        end
+                        3'b011: begin // SLTU
+                            alu_op     <= alu_subcode_e.IOP_SLTU;
+                            n_bad_inst <= 1'b1;
+                        end
+                        3'b100: begin // XOR
+                            alu_op     <= alu_subcode_e.IOP_XOR;
+                            n_bad_inst <= 1'b1;
+                        end
+                        3'b101: begin // SRL, SRA
+                            case (funct7)
+                                7'b0000000: begin
+                                    alu_op     <= alu_subcode_e.IOP_SRL;
+                                    n_bad_inst <= 1'b1;
+                                end
+                                7'b0100000: begin
+                                    alu_op     <= alu_subcode_e.IOP_SRA;
+                                    n_bad_inst <= 1'b1;
+                                end
+                                default: begin
+                                    n_bad_inst <= 1'b0;
+                                end
+                            endcase
+                        end
+                        3'b110: begin // OR
+                            alu_op     <= alu_subcode_e.IOP_OR;
+                            n_bad_inst <= 1'b1;
+                        end
+                        3'b111: begin // AND
+                            alu_op     <= alu_subcode_e.IOP_AND;
+                            n_bad_inst <= 1'b1;
+                        end 
+                        default: begin
+                            n_bad_inst <= 1'b0;
+                        end
                     endcase
                 end
 
